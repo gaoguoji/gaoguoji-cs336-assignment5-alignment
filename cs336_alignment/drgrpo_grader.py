@@ -1013,6 +1013,8 @@ def r1_zero_reward_fn(response, ground_truth, fast=True):
             model_answer = extract_answer(model_answer)
             if model_answer is None:
                 return {
+                    "ground_truth": ground_truth,
+                    "model_answer": model_answer,
                     "format_reward": 1.0,
                     "answer_reward": 0.0,
                     "reward": 0.0
@@ -1027,6 +1029,8 @@ def r1_zero_reward_fn(response, ground_truth, fast=True):
                 is_correct |= grade(model_answer, gt, fast)
         if is_correct:
             return {
+                "ground_truth": ground_truth,
+                "model_answer": model_answer,
                 "format_reward": 1.0,
                 "answer_reward": 1.0,
                 "reward": 1.0
@@ -1034,6 +1038,8 @@ def r1_zero_reward_fn(response, ground_truth, fast=True):
         else:
             # Formatted but wrong answer; no format reward to avoid hacking.
             return {
+                "ground_truth": ground_truth,
+                "model_answer": model_answer,
                 "format_reward": 1.0,
                 "answer_reward": 0.0,
                 "reward": 0.0
@@ -1041,6 +1047,8 @@ def r1_zero_reward_fn(response, ground_truth, fast=True):
     else:
         # Unformatted.
         return {
+            "ground_truth": ground_truth,
+            "model_answer": None,
             "format_reward": 0.0,
             "answer_reward": 0.0,
             "reward": 0.0
@@ -1052,6 +1060,8 @@ def question_only_reward_fn(response, ground_truth, fast=True):
     if model_answer is None:
         # Cannot even parse anything.
         return {
+            "ground_truth": ground_truth,
+            "model_answer": model_answer,
             "format_reward": 0.0,
             "answer_reward": 0.0,
             "reward": 0.0
@@ -1067,13 +1077,17 @@ def question_only_reward_fn(response, ground_truth, fast=True):
     if is_correct:
         # Correctness reward.
         return {
+            "ground_truth": ground_truth,
+            "model_answer": model_answer,
             "format_reward": 1.0,
             "answer_reward": 1.0,
             "reward": 1.0
-        }
+        } 
     else:
         # Formatted but wrong answer; no format reward to avoid hacking.
         return {
+            "ground_truth": ground_truth,
+            "model_answer": model_answer,
             "format_reward": 1.0,
             "answer_reward": 0.0,
             "reward": 0.0
