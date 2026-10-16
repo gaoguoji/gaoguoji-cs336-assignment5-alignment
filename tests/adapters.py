@@ -6,7 +6,8 @@ from typing import Any, Callable, Literal
 import torch
 from torch import Tensor
 from torch.utils.data import Dataset
-from transformers import PreTrainedTokenizerBase
+from transformers import PreTrainedTokenizerBase 
+from cs336_alignment.hw4_grpo.grpo_utils import tokenize_prompt_and_output, get_response_log_probs, compute_rollout_rewards, compute_group_normalized_rewards
 
 
 
@@ -45,8 +46,9 @@ def run_tokenize_prompt_and_output(
                 (batch_size, max(prompt_and_output_lens) - 1): a mask aligned
                 with labels, with value 1 where the corresponding label token
                 is part of the response and 0 otherwise.
-    """
-    raise NotImplementedError
+    """ 
+    return tokenize_prompt_and_output(prompt_strs, output_strs, tokenizer)
+    #raise NotImplementedError
 
 
 def run_get_response_log_probs(
@@ -82,7 +84,8 @@ def run_get_response_log_probs(
                 entropy for each position (present only if
                 return_token_entropy=True).
     """
-    raise NotImplementedError
+    return get_response_log_probs(model, input_ids, labels, return_token_entropy)
+    #raise NotImplementedError
 
 
 def run_compute_rollout_rewards(
@@ -114,7 +117,8 @@ def run_compute_rollout_rewards(
                 Reward statistics to log. At minimum, include the mean total
                 and format rewards over the rollout batch.
     """
-    raise NotImplementedError
+    return compute_rollout_rewards(reward_fn, rollout_responses, repeated_ground_truths)
+    #raise NotImplementedError
 
 
 def run_compute_group_normalized_rewards(
@@ -152,8 +156,9 @@ def run_compute_group_normalized_rewards(
             metadata
                 your choice of other statistics to log (e.g. mean, std, max/min
                 of rewards).
-    """
-    raise NotImplementedError
+    """ 
+    return compute_group_normalized_rewards(raw_rewards, group_size, baseline, advantage_eps, advantage_normalizer)
+    #raise NotImplementedError
 
 
 def run_compute_policy_gradient_loss(
